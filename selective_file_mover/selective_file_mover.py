@@ -8,19 +8,17 @@
 # See the readme for more details.
 #
 # Originally written to solve my personal woes when trying to move all of my singleplayer mod files out of the GTA V
-# folder so that I could play online without getting banned.
+# folder so that I could play online without getting banned for singleplayer mods.
 
 import os
 import shutil
-
+from time import sleep
 
 # SETTINGS
-# Game Directory:
+# Live Usage Directory:
 usage_dir = "D:/Files/Program Files/Steam/steamapps/common/Grand Theft Auto V"
 # Storage area for mod files when not in use
 store_dir = "D:/Files/Program Files/0 GTA BACKUP/f_store"
-# Empty folder to use during moving
-temp_dir = "D:/Files/Program Files/0 GTA BACKUP/temp"
 # Directory to put files in if something goes wrong
 error_dir = "D:/Files/Program Files/0 GTA BACKUP/z_error_catch_dir"
 # List of files to remain in the game directory
@@ -68,7 +66,7 @@ gta_files = [
 ]
 
 
-def move_files(items, dir_1, dir_2, temp_dir):
+def move_files(items, dir_1, dir_2, overwrite_dir):
     # Dir1 should be where the files are moved to when they need to be used
     # Dir2 is where they should be stored when not in use
     for item in items:
@@ -77,15 +75,11 @@ def move_files(items, dir_1, dir_2, temp_dir):
         print("From:", source)
         print("To:", dest)
         try:
-            if os.path.isdir(source):
-                shutil.copytree(source, dest)
-                shutil.rmtree(source)
+            if os.path.exists(dest):
+                shutil.move(dest, overwrite_dir)
+                shutil.move(source, dest)
             else:
-                if os.path.exists(dest):
-                    shutil.move(dest, temp_dir)
-                    shutil.move(source, dest)
-                elif not os.path.exists(dest) or os.stat(source).st_mtime - os.stat(dest).st_mtime > 1:
-                    shutil.move(source, dest)
+                shutil.move(source, dest)
         except FileNotFoundError:
             print("Error: File not Found: " + str(source))
 
@@ -113,7 +107,7 @@ while True:
                            "Input 1/2/3: "))
         if option == 1:
             all_files = os.listdir(store_dir)
-            move_files(all_files, store_dir, usage_dir, temp_dir)
+            move_files(all_files, store_dir, usage_dir, error_dir)
         elif option == 2:
             move_files(listOfFiles, usage_dir, store_dir, temp_dir)
             tempFiles = os.listdir("C:/Program Files/Steam/steamapps/common/Grand Theft Auto V/tempW")
