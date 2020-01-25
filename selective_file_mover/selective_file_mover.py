@@ -16,8 +16,7 @@ from time import sleep
 
 
 def move_files(items, dir_1, dir_2, overwrite_dir):
-    # Dir1 should be where the files are moved to when they need to be used
-    # Dir2 is where they should be stored when not in use
+    # overwrite_dir is for files that get overwritten
     for item in items:
         source = os.path.join(dir_1, item)
         dest = os.path.join(dir_2, item)
@@ -40,20 +39,19 @@ def list_mod_files(game_dir, excluded_files):
 
 
 def retrieve_excluded_files():
-    with open("files.txt", 'r') as text:
-        files = text.read().splitlines()
-        print(files)
+    with open("files.txt", 'r') as f:
+        files = f.read().splitlines()
     return files
 
 
 while True:
     try:
         usage_dir = "D:/Files/Program Files/Steam/steamapps/common/Grand Theft Auto V"
-        #option = int(input("Select an option:\n"
-        #                   "1: Move files into usage directory (overwritten files go to temp\n"
-        #                   "2: Move files back into storage directory (overwritten files restored)\n"
-        #                   "3: Quit\n"
-        #                   "Input 1/2/3: "))
+        option = int(input("Select an option:\n"
+                           "1: Move files into game directory\n"
+                           "2: Move files back into storage directory (overwritten files restored)\n"
+                           "3: Quit\n"
+                           "Input 1/2/3: "))
         list_mod_files(usage_dir, retrieve_excluded_files())
         """
         if option == 1:
