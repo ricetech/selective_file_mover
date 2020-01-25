@@ -90,21 +90,22 @@ def list_mod_files(game_dir, excluded_files):
     return unique_contents
 
 
-def store_mod_files():
-    pass
-
-
-def retrieve_mod_files():
-    pass
+def retrieve_excluded_files():
+    with open("files.txt", 'r') as text:
+        files = text.read().strip().split("\n")
+        print(files)
+    return files
 
 
 while True:
     try:
-        option = int(input("Select an option:\n"
-                           "1: Move files into usage directory (overwritten files go to temp\n"
-                           "2: Move files back into storage directory (overwritten files restored)\n"
-                           "3: Quit\n"
-                           "Input 1/2/3: "))
+        #option = int(input("Select an option:\n"
+        #                   "1: Move files into usage directory (overwritten files go to temp\n"
+        #                   "2: Move files back into storage directory (overwritten files restored)\n"
+        #                   "3: Quit\n"
+        #                   "Input 1/2/3: "))
+        list_mod_files(usage_dir, retrieve_excluded_files())
+        """
         if option == 1:
             all_files = os.listdir(store_dir)
             move_files(all_files, store_dir, usage_dir, error_dir)
@@ -117,5 +118,7 @@ while True:
                 input("Press Enter to continue.")
         elif option == 3:
             break
+        else:
+            print("Invalid input. Try again.")"""
     except ValueError:
         print("Error: Invalid input")
