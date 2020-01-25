@@ -6,6 +6,7 @@ commandline.txt
 common.rpf
 d3dcompiler_46.dll
 d3dcsx_46.dll
+GameOverlayRenderer.log
 GFSDK_ShadowLib.win64.dll
 GFSDK_TXAA.win64.dll
 GFSDK_TXAA_AlphaResolve.win64.dll

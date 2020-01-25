@@ -14,57 +14,6 @@ import os
 import shutil
 from time import sleep
 
-# SETTINGS
-# Live Usage Directory:
-usage_dir = "D:/Files/Program Files/Steam/steamapps/common/Grand Theft Auto V"
-# Storage area for mod files when not in use
-store_dir = "D:/Files/Program Files/0 GTA BACKUP/f_store"
-# Directory to put files in if something goes wrong
-error_dir = "D:/Files/Program Files/0 GTA BACKUP/z_error_catch_dir"
-# List of files to remain in the game directory
-gta_files = [
-    'Installers',
-    'update',
-    'x64',
-    'bink2w64.dll',
-    'commandline.txt',
-    'common.rpf',
-    'd3dcompiler_46.dll',
-    'd3dcsx_46.dll',
-    'GFSDK_ShadowLib.win64.dll',
-    'GFSDK_TXAA.win64.dll',
-    'GFSDK_TXAA_AlphaResolve.win64.dll',
-    'GTA5.exe',
-    'GTAVLanguageSelect.exe',
-    'GTAVLauncher.exe',
-    'installscript.vdf',
-    'PlayGTAV.exe',
-    'steam_api64.dll',
-    'x64a.rpf',
-    'x64b.rpf',
-    'x64c.rpf',
-    'x64d.rpf',
-    'x64e.rpf',
-    'x64f.rpf',
-    'x64g.rpf',
-    'x64h.rpf',
-    'x64i.rpf',
-    'x64j.rpf',
-    'x64k.rpf',
-    'x64l.rpf',
-    'x64m.rpf',
-    'x64n.rpf',
-    'x64o.rpf',
-    'x64p.rpf',
-    'x64q.rpf',
-    'x64r.rpf',
-    'x64s.rpf',
-    'x64t.rpf',
-    'x64u.rpf',
-    'x64v.rpf',
-    'x64w.rpf'
-]
-
 
 def move_files(items, dir_1, dir_2, overwrite_dir):
     # Dir1 should be where the files are moved to when they need to be used
@@ -92,13 +41,14 @@ def list_mod_files(game_dir, excluded_files):
 
 def retrieve_excluded_files():
     with open("files.txt", 'r') as text:
-        files = text.read().strip().split("\n")
+        files = text.read().splitlines()
         print(files)
     return files
 
 
 while True:
     try:
+        usage_dir = "D:/Files/Program Files/Steam/steamapps/common/Grand Theft Auto V"
         #option = int(input("Select an option:\n"
         #                   "1: Move files into usage directory (overwritten files go to temp\n"
         #                   "2: Move files back into storage directory (overwritten files restored)\n"
@@ -120,5 +70,6 @@ while True:
             break
         else:
             print("Invalid input. Try again.")"""
+        input()
     except ValueError:
         print("Error: Invalid input")
