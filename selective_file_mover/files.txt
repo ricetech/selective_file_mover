@@ -6,6 +6,8 @@ commandline.txt
 common.rpf
 d3dcompiler_46.dll
 d3dcsx_46.dll
+discord-rpc.dll
+DiscordRpcNet.dll
 GameOverlayRenderer.log
 GFSDK_ShadowLib.win64.dll
 GFSDK_TXAA.win64.dll
