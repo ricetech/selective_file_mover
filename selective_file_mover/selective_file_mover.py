@@ -124,7 +124,7 @@ def get_vars_from_txt(file):
 
 
 def move_files(items, source_dir, dest_dir, overwrite_dir):
-    files_overwritten = False
+    overwritten_files = []
     # overwrite_dir is for files that get overwritten
     # Make sure overwrite_dir is empty
     if len(os.listdir(overwrite_dir)) != 0:
@@ -140,11 +140,11 @@ def move_files(items, source_dir, dest_dir, overwrite_dir):
             # Move overwritten file to overwrite_dir
             shutil.move(dest_path, overwrite_dir)
             shutil.move(source_path, dest_path)
-            files_overwritten = True
+            overwritten_files.append(dest_path)
         else:
             # If destination file does not exist, move file normally
             shutil.move(source_path, dest_path)
-    return files_overwritten
+    return overwritten_files
 
 
 def get_files_to_move(usage_dir, excluded_items):
