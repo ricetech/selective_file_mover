@@ -72,7 +72,7 @@ def get_vars_from_txt(file):
     """
     variables = {}
     with open(file, "r") as settings:
-        for line in settings.readlines():
+        for line in settings:
             if line[0] == '#':
                 continue
             elif len(line.split('=')) == 2:
