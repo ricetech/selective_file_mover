@@ -1,4 +1,7 @@
 .idea
 
+# Releases
+releases
+
 # Settings File
 selective_file_mover/selective_file_mover_settings.txt
