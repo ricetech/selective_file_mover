@@ -1,0 +1,12 @@
+# Settings for Selective File Mover
+# DO NOT ADD ANY BLANK LINES TO THIS FILE, OR ELSE THE PROGRAM WILL NOT WORK.
+# DO NOT REMOVE ANYTHING BEFORE THE EQUAL SIGNS, OR ELSE THE PROGRAM WILL NOT WORK.
+# Usage Directory
+# In the line below, place the **full filepath** to the directory (folder) where your files will be placed when they are **in use**.
+# The directory for the default installation path of Grand Theft Auto V is used as a placeholder, but you should replace the part after = with whatever you need.
+UsageDir=C:/Program Files/Steam/steamapps/common/Grand Theft Auto V
+#
+# Storage Directory
+# In the line below, place the **full filepath** to the directory (folder) where your files will be placed when they are **in storage** (not in use).
+# A suggested directory is placed below, you should replace the part after = with whatever you need.
+StorageDir=C:/Temp Storage/
