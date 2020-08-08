@@ -17,9 +17,13 @@ from time import sleep
 # Program constants
 SETTINGS_FILE_PATH = "selective_file_mover_settings.txt"
 EXCLUDED_FILES_FILE_PATH = "excluded_files.txt"
+OVERWRITE_DIRECTORY_NAME = "0 Overwritten Files (Selective File Mover)"
 
 
 def main():
+    # Get storage/usage paths from file
+    usage_dir, store_dir, overwrite_dir, excluded_files = get_paths_and_files()
+    # Run program
     while True:
         try:
             usage_dir = "D:/0 PF/Steam/steamapps/common/Grand Theft Auto V"
@@ -47,6 +51,36 @@ def main():
             input()
         except ValueError:
             print("Error: Invalid input")
+
+
+def get_paths_and_files():
+    """
+    Retrieves the variables required for the program to work: usage_dir, store_dir, overwrite_dir and excluded_files.
+    Split into a separate function for readability.
+    """
+    try:
+        file_paths = get_vars_from_txt(SETTINGS_FILE_PATH)
+    except FileNotFoundError:
+        print(f">> ERROR: Unable to locate the settings file - {SETTINGS_FILE_PATH}. Make sure it was not renamed.")
+        crash_with_confirm()
+        return  # Unused return statement to avoid false warnings in code editors
+    try:
+        excluded_files = get_lines_from_file(EXCLUDED_FILES_FILE_PATH)
+    except FileNotFoundError:
+        print(f">> ERROR: Unable to locate the settings file - {EXCLUDED_FILES_FILE_PATH}. "
+              f"Make sure it was not renamed.")
+        crash_with_confirm()
+        return  # Unused return statement to avoid false warnings in code editors
+    try:
+        usage_dir = file_paths['usage_dir']
+        store_dir = file_paths['storage_dir']
+        overwrite_dir = os.path.join(store_dir, OVERWRITE_DIRECTORY_NAME)
+    except KeyError:
+        print(">> ERROR: The required variables 'usage_dir' and 'storage_dir' were not present in the settings file: "
+              f"{SETTINGS_FILE_PATH}. Please ensure you are using the correct file.")
+        crash_with_confirm()
+        return  # Unused return statement to avoid false warnings in code editors
+    return usage_dir, store_dir, overwrite_dir, excluded_files
 
 
 def crash_with_confirm():
