@@ -4,7 +4,9 @@
 # Eric Chen
 # @the_ricetech
 #
-# This script is designed to move a large amount of files and folders from one directory to another.
+# This script is designed to move a large amount of files and folders from one directory to another while ignoring
+# certain files and folders.
+# Throughout this program, 'item' refers to an objects which can be a file OR a folder.
 # See the readme for more details.
 #
 # Originally written to solve my personal woes when trying to move all of my singleplayer mod files out of the GTA V
@@ -16,13 +18,13 @@ from time import sleep
 
 # Program constants
 SETTINGS_FILE_PATH = "selective_file_mover_settings.txt"
-EXCLUDED_FILES_FILE_PATH = "excluded_files.txt"
+EXCLUDED_ITEMS_FILE_PATH = "excluded_items.txt"
 OVERWRITE_DIRECTORY_NAME = "0 Overwritten Files (Selective File Mover)"
 
 
 def main():
     # Get storage/usage paths from file
-    usage_dir, store_dir, overwrite_dir, excluded_files = get_paths_and_files()
+    usage_dir, store_dir, overwrite_dir, excluded_items = get_paths_and_files()
     # Run program
     while True:
         try:
@@ -55,32 +57,32 @@ def main():
 
 def get_paths_and_files():
     """
-    Retrieves the variables required for the program to work: usage_dir, store_dir, overwrite_dir and excluded_files.
+    Retrieves the variables required for the program to work: usage_dir, store_dir, overwrite_dir and excluded_items.
     Split into a separate function for readability.
     """
     try:
-        file_paths = get_vars_from_txt(SETTINGS_FILE_PATH)
+        dir_paths = get_vars_from_txt(SETTINGS_FILE_PATH)
     except FileNotFoundError:
         print(f">> ERROR: Unable to locate the settings file - {SETTINGS_FILE_PATH}. Make sure it was not renamed.")
         crash_with_confirm()
         return  # Unused return statement to avoid false warnings in code editors
     try:
-        excluded_files = get_lines_from_file(EXCLUDED_FILES_FILE_PATH)
+        excluded_items = get_lines_from_file(EXCLUDED_ITEMS_FILE_PATH)
     except FileNotFoundError:
-        print(f">> ERROR: Unable to locate the settings file - {EXCLUDED_FILES_FILE_PATH}. "
+        print(f">> ERROR: Unable to locate the settings file - {EXCLUDED_ITEMS_FILE_PATH}. "
               f"Make sure it was not renamed.")
         crash_with_confirm()
         return  # Unused return statement to avoid false warnings in code editors
     try:
-        usage_dir = file_paths['usage_dir']
-        store_dir = file_paths['storage_dir']
+        usage_dir = dir_paths['usage_dir']
+        store_dir = dir_paths['storage_dir']
         overwrite_dir = os.path.join(store_dir, OVERWRITE_DIRECTORY_NAME)
     except KeyError:
         print(">> ERROR: The required variables 'usage_dir' and 'storage_dir' were not present in the settings file: "
               f"{SETTINGS_FILE_PATH}. Please ensure you are using the correct file.")
         crash_with_confirm()
         return  # Unused return statement to avoid false warnings in code editors
-    return usage_dir, store_dir, overwrite_dir, excluded_files
+    return usage_dir, store_dir, overwrite_dir, excluded_items
 
 
 def crash_with_confirm():
@@ -121,7 +123,7 @@ def get_vars_from_txt(file):
         return variables
 
 
-def move_files(items, dir_1, dir_2, overwrite_dir):
+def move_files(items, source_dir, dest_dir, overwrite_dir):
     files_overwritten = False
     # overwrite_dir is for files that get overwritten
     # Make sure overwrite_dir is empty
@@ -130,25 +132,25 @@ def move_files(items, dir_1, dir_2, overwrite_dir):
         crash_with_confirm()
 
     for item in items:
-        source = os.path.join(dir_1, item)
-        dest = os.path.join(dir_2, item)
-        print("From:", source)
-        print("To:", dest)
-        if os.path.exists(dest):
+        source_path = os.path.join(source_dir, item)
+        dest_path = os.path.join(dest_dir, item)
+        print("From:", source_path)
+        print("To:", dest_path)
+        if os.path.exists(dest_path):
             # Move overwritten file to overwrite_dir
-            shutil.move(dest, overwrite_dir)
-            shutil.move(source, dest)
+            shutil.move(dest_path, overwrite_dir)
+            shutil.move(source_path, dest_path)
             files_overwritten = True
         else:
             # If destination file does not exist, move file normally
-            shutil.move(source, dest)
+            shutil.move(source_path, dest_path)
     return files_overwritten
 
 
-def get_files_to_move(usage_dir, excluded_files):
-    all_contents = os.listdir(usage_dir)
-    files_to_move = [file for file in all_contents if file not in excluded_files]
-    return files_to_move
+def get_files_to_move(usage_dir, excluded_items):
+    dir_contents = os.listdir(usage_dir)
+    items_to_move = [item for item in dir_contents if item not in excluded_items]
+    return items_to_move
 
 
 def get_lines_from_file(file):
