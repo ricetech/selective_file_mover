@@ -1,6 +1,6 @@
 # Selective File Mover
 # August 7th, 2020
-# Revision 1.1.1
+# Version 1.1.1
 # Eric Chen
 # @the_ricetech
 #
