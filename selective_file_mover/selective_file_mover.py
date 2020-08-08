@@ -1,6 +1,6 @@
 # Selective File Mover
-# August 7th, 2020
-# Version 1.1.1
+# August 8th, 2020
+# Version 2.0.0
 # Eric Chen
 # @the_ricetech
 #
@@ -23,36 +23,61 @@ OVERWRITE_DIRECTORY_NAME = "0 Overwritten Files (Selective File Mover)"
 
 
 def main():
-    # Get storage/usage paths from file
+    # Get storage/usage paths from files
     usage_dir, store_dir, overwrite_dir, excluded_items = get_paths_and_files()
     # Run program
     while True:
+        clear_screen()
         try:
-            usage_dir = "D:/0 PF/Steam/steamapps/common/Grand Theft Auto V"
-            option = int(input("Select an option:\n"
-                               "1: Move files into game directory\n"
-                               "2: Move files back into storage directory (overwritten files restored)\n"
-                               "3: Quit\n"
+            option = int(input("\nSelect an option:\n" +
+                               "1: Move files from usage directory into storage directory\n" +
+                               "2: Move files from storage directory into usage directory\n" +
+                               "3: Quit\n" +
                                "Input 1/2/3: "))
-            get_files_to_move(usage_dir, get_lines_from_file(EXCLUDED_FILES_FILE_PATH))
-            """
-            if option == 1:
-                all_files = os.listdir(store_dir)
-                move_files(all_files, store_dir, usage_dir, error_dir)
-            elif option == 2:
-                move_files(listOfFiles, usage_dir, store_dir, temp_dir)
-                tempFiles = os.listdir("C:/Program Files/Steam/steamapps/common/Grand Theft Auto V/tempW")
-                move_files(tempFiles, temp_dir, usage_dir, error_dir)
-                if os.listdir(error_dir):
-                    print("CAUTION: Something went wrong. Check emergency directory.")
-                    input("Press Enter to continue.")
+            if option == 1 or option == 2:  # Usage to Storage
+                if option == 1:  # Usage to Storage
+                    files_to_move = get_files_to_move(usage_dir, excluded_items)
+                    from_dir = usage_dir
+                    to_dir = store_dir
+                else:  # Storage to Usage
+                    # option must == 2 because of the or condition in the parent if statement
+                    from_dir = store_dir
+                    to_dir = usage_dir
+                    files_to_move = os.listdir(store_dir)
+                # Move files
+                try:
+                    overwritten_files = move_files(files_to_move, from_dir, to_dir, overwrite_dir)
+                except ValueError as e:
+                    print(">> ERROR:", e)
+                    crash_with_confirm()
+                    return  # Unused return statement to avoid false warnings in code editors
+                if not overwritten_files:
+                    input("\n>> Operation completed successfully. Press Enter to continue.")
+                else:  # Something got overwritten
+                    input("\n>> WARNING: Files were overwritten during this operation, which is now complete.\n"
+                          "Press Enter to see the list of overwritten files.\n")
+                    print("List of overwritten files:")
+                    sleep(0.5)
+                    for file in overwritten_files:
+                        print(file)
+                    sleep(0.5)
+                    input(f"\n>> The overwritten files (the files that were already in '{to_dir}')\n"
+                          f"were moved to '{overwrite_dir}'."
+                          f"\nPlease check there and fix the conflicts yourself.\n"
+                          f"Remember that you cannot move files using this program without\n"
+                          f"emptying that folder, so please remember to do that before using this program again.\n\n"
+                          f">> Press Enter to continue. The screen will be cleared.")
             elif option == 3:
                 break
             else:
-                print("Invalid input. Try again.")"""
-            input()
+                input(f">> ERROR: Input was not a valid option: {option}. Press Enter to try again.")
         except ValueError:
-            print("Error: Invalid input")
+            input(">> Error: Input was not a number. Press Enter to try again.")
+
+
+def clear_screen():
+    """This function clears the console. It does not work in IDE Terminals."""
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def get_paths_and_files():
