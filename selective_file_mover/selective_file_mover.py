@@ -91,7 +91,7 @@ def move_files(items, dir_1, dir_2, overwrite_dir):
     # overwrite_dir is for files that get overwritten
     # Make sure overwrite_dir is empty
     if len(os.listdir(overwrite_dir)) != 0:
-        print("Cannot move files: Overwrite Directory must be empty: " + overwrite_dir)
+        print(">> ERROR: Cannot move files: Overwrite Directory must be empty: " + overwrite_dir)
         crash_with_confirm()
 
     for item in items:
