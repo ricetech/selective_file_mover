@@ -24,7 +24,7 @@ def main():
                                "2: Move files back into storage directory (overwritten files restored)\n"
                                "3: Quit\n"
                                "Input 1/2/3: "))
-            list_mod_files(usage_dir, retrieve_excluded_files())
+            get_files_to_move(usage_dir, retrieve_excluded_files())
             """
             if option == 1:
                 all_files = os.listdir(store_dir)
@@ -62,7 +62,7 @@ def move_files(items, dir_1, dir_2, overwrite_dir):
             print("Error: File not Found: " + str(source))
 
 
-def list_mod_files(game_dir, excluded_files):
+def get_files_to_move(game_dir, excluded_files):
     all_contents = os.listdir(game_dir)
     unique_contents = [file for file in all_contents if file not in excluded_files]
     return unique_contents
