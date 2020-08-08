@@ -136,6 +136,10 @@ def move_files(items, source_dir, dest_dir, overwrite_dir):
         os.makedirs(overwrite_dir)
 
     for item in items:
+        # Ignore overwrite folder
+        if item == OVERWRITE_DIRECTORY_NAME:
+            continue
+
         source_path = os.path.join(source_dir, item)
         dest_path = os.path.join(dest_dir, item)
         # Debugging test - you can uncomment this if you prefer to see it.
