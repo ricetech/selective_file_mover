@@ -66,6 +66,10 @@ def get_paths_and_files():
         print(f">> ERROR: Unable to locate the settings file - {SETTINGS_FILE_PATH}. Make sure it was not renamed.")
         crash_with_confirm()
         return  # Unused return statement to avoid false warnings in code editors
+    except ValueError as e:
+        print(">> ERROR:", e)
+        crash_with_confirm()
+        return  # Unused return statement to avoid false warnings in code editors
     try:
         excluded_items = get_lines_from_file(EXCLUDED_ITEMS_FILE_PATH)
     except FileNotFoundError:
