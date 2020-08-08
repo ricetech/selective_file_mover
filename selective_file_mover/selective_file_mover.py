@@ -117,7 +117,7 @@ def get_files_to_move(usage_dir, excluded_files):
 
 
 def retrieve_excluded_files():
-    with open("files.txt", 'r') as f:
+    with open("excluded_files.txt", 'r') as f:
         files = f.read().splitlines()
     return files
 
