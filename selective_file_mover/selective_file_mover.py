@@ -127,6 +127,17 @@ def get_vars_from_txt(file):
 
 
 def move_files(items, source_dir, dest_dir, overwrite_dir):
+    """
+    Moves a files AND folders matching any name in items from source_dir to dest_dir.
+    If a file already exists in dest_dir, the version in dest_dir is moved to overwrite_dir and the version from
+    source_dir is moved into dest_dir.
+    :param items: The list of file and folder names to move. These names should be relative to source_dir and dest_dir,
+    and should NOT be full file paths.
+    :param source_dir: The directory (full path) to move from.
+    :param dest_dir: The directory (full path) to move to.
+    :param overwrite_dir: The directory (full path) to send overwritten files to.
+    :return: A list of files (full path) in dest_dir that were overwritten. Empty list if no files were overwritten.
+    """
     overwritten_files = []
     # overwrite_dir is for files that get overwritten
 
@@ -160,12 +171,23 @@ def move_files(items, source_dir, dest_dir, overwrite_dir):
 
 
 def get_files_to_move(usage_dir, excluded_items):
+    """
+    Produces a list of files/folders in the directory usage_dir that **do not** match a name found in excluded_items.
+    :param usage_dir: The directory to scan.
+    :param excluded_items: List of file/folder names to ignore. These will not show up in the return, even if found.
+    :return: A list of files/folders in usage_dir that do NOT match a name in excluded_items.
+    """
     dir_contents = os.listdir(usage_dir)
     items_to_move = [item for item in dir_contents if item not in excluded_items]
     return items_to_move
 
 
 def get_lines_from_file(file):
+    """
+    Extracts lines from a text file.
+    :param file: The text file to extract lines from.
+    :return: A list containing all lines of file.
+    """
     with open(file, 'r') as f:
         lines = f.read().splitlines()
     return lines
