@@ -113,8 +113,8 @@ def move_files(items, dir_1, dir_2, overwrite_dir):
 
 def get_files_to_move(usage_dir, excluded_files):
     all_contents = os.listdir(usage_dir)
-    unique_contents = [file for file in all_contents if file not in excluded_files]
-    return unique_contents
+    files_to_move = [file for file in all_contents if file not in excluded_files]
+    return files_to_move
 
 
 def get_lines_from_file(file):
