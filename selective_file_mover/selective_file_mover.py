@@ -16,6 +16,7 @@ from time import sleep
 
 # Program constants
 SETTINGS_FILE_PATH = "selective_file_mover_settings.txt"
+EXCLUDED_FILES_FILE_PATH = "excluded_files.txt"
 
 
 def main():
@@ -27,7 +28,7 @@ def main():
                                "2: Move files back into storage directory (overwritten files restored)\n"
                                "3: Quit\n"
                                "Input 1/2/3: "))
-            get_files_to_move(usage_dir, get_lines_from_file())
+            get_files_to_move(usage_dir, get_lines_from_file(EXCLUDED_FILES_FILE_PATH))
             """
             if option == 1:
                 all_files = os.listdir(store_dir)
@@ -116,8 +117,8 @@ def get_files_to_move(usage_dir, excluded_files):
     return unique_contents
 
 
-def get_lines_from_file():
-    with open("excluded_files.txt", 'r') as f:
+def get_lines_from_file(file):
+    with open(file, 'r') as f:
         lines = f.read().splitlines()
     return lines
 
