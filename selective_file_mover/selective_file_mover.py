@@ -46,20 +46,26 @@ def main():
 
 
 def move_files(items, dir_1, dir_2, overwrite_dir):
+    files_overwritten = False
     # overwrite_dir is for files that get overwritten
+    # Make sure overwrite_dir is empty
+    if len(os.listdir(overwrite_dir)) != 0:
+        raise ValueError("Cannot move files: Overwrite Directory must be empty: " + overwrite_dir)
+
     for item in items:
         source = os.path.join(dir_1, item)
         dest = os.path.join(dir_2, item)
         print("From:", source)
         print("To:", dest)
-        try:
-            if os.path.exists(dest):
-                shutil.move(dest, overwrite_dir)
-                shutil.move(source, dest)
-            else:
-                shutil.move(source, dest)
-        except FileNotFoundError:
-            print("Error: File not Found: " + str(source))
+        if os.path.exists(dest):
+            # Move overwritten file to overwrite_dir
+            shutil.move(dest, overwrite_dir)
+            shutil.move(source, dest)
+            files_overwritten = True
+        else:
+            # If destination file does not exist, move file normally
+            shutil.move(source, dest)
+    return files_overwritten
 
 
 def get_files_to_move(usage_dir, excluded_files):
