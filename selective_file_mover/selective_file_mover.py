@@ -117,9 +117,8 @@ def get_vars_from_txt(file):
                 # Add path to dictionary
                 variables[var[0].strip()] = var[1].strip()
             else:
-                print(">> ERROR: Line format is invalid. Did you add an extra line or delete a '=' by accident?: " +
-                      line)
-                crash_with_confirm()
+                raise ValueError("Line format is invalid. Did you add an extra line or delete a '=' by accident?: " +
+                                 line)
         return variables
 
 
@@ -130,8 +129,7 @@ def move_files(items, source_dir, dest_dir, overwrite_dir):
     # Make sure overwrite_dir is empty
     try:
         if len(os.listdir(overwrite_dir)) != 0:
-            print(">> ERROR: Cannot move files: Overwrite Directory must be empty: " + overwrite_dir)
-            crash_with_confirm()
+            raise ValueError("Cannot move files: Overwrite Directory must be empty: " + overwrite_dir)
     except FileNotFoundError:  # Create overwrite_dir if it doesn't exist
         os.makedirs(overwrite_dir)
 
