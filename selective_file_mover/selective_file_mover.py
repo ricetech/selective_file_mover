@@ -62,8 +62,8 @@ def move_files(items, dir_1, dir_2, overwrite_dir):
             print("Error: File not Found: " + str(source))
 
 
-def get_files_to_move(game_dir, excluded_files):
-    all_contents = os.listdir(game_dir)
+def get_files_to_move(usage_dir, excluded_files):
+    all_contents = os.listdir(usage_dir)
     unique_contents = [file for file in all_contents if file not in excluded_files]
     return unique_contents
 
