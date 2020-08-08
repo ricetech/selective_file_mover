@@ -14,6 +14,9 @@ import os
 import shutil
 from time import sleep
 
+# Program constants
+SETTINGS_FILE_PATH = "selective_file_mover_settings.txt"
+
 
 def main():
     while True:
@@ -53,6 +56,34 @@ def crash_with_confirm():
     """
     input(">> Program cannot continue due to this error. Press Enter to exit.")
     exit(1)
+
+
+def get_vars_from_txt(file):
+    """
+    Extracts variables from a text file and places them into a dictionary.
+    Required format:
+    File type - txt
+    Blank lines - only one allowed at the end of the file
+    Comments - Use # at the beginning of the line
+    Variables - Variable name at the beginning of the line followed by an equals sign followed by the value. Example:
+    sample_var = sample val
+    :param file: A text file following the guidelines above.
+    :return: A dictionary containing all of the variables extracted from the file.
+    """
+    variables = {}
+    with open(file, "r") as settings:
+        for line in settings.readlines():
+            if line[0] == '#':
+                continue
+            elif len(line.split('=')) == 2:
+                var = line.strip().split('=')
+                # Add path to dictionary
+                variables[var[0].strip()] = var[1].strip()
+            else:
+                print(">> ERROR: Line format is invalid. Did you add an extra line or delete a '=' by accident?: " +
+                      line)
+                crash_with_confirm()
+        return variables
 
 
 def move_files(items, dir_1, dir_2, overwrite_dir):
