@@ -45,12 +45,23 @@ def main():
             print("Error: Invalid input")
 
 
+def crash_with_confirm():
+    """
+    'Crashes' the program by quitting with exit code 1, but asking the user for any input beforehand to ensure
+    those using Terminal/Command Prompt have enough time to read the error before the program exits.
+    The error causing this condition must be displayed using a print statement before calling this function.
+    """
+    input(">> Program cannot continue due to this error. Press Enter to exit.")
+    exit(1)
+
+
 def move_files(items, dir_1, dir_2, overwrite_dir):
     files_overwritten = False
     # overwrite_dir is for files that get overwritten
     # Make sure overwrite_dir is empty
     if len(os.listdir(overwrite_dir)) != 0:
-        raise ValueError("Cannot move files: Overwrite Directory must be empty: " + overwrite_dir)
+        print("Cannot move files: Overwrite Directory must be empty: " + overwrite_dir)
+        crash_with_confirm()
 
     for item in items:
         source = os.path.join(dir_1, item)
