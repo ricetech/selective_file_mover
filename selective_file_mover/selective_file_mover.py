@@ -27,7 +27,7 @@ def main():
                                "2: Move files back into storage directory (overwritten files restored)\n"
                                "3: Quit\n"
                                "Input 1/2/3: "))
-            get_files_to_move(usage_dir, retrieve_excluded_files())
+            get_files_to_move(usage_dir, get_lines_from_file())
             """
             if option == 1:
                 all_files = os.listdir(store_dir)
@@ -116,10 +116,10 @@ def get_files_to_move(usage_dir, excluded_files):
     return unique_contents
 
 
-def retrieve_excluded_files():
+def get_lines_from_file():
     with open("excluded_files.txt", 'r') as f:
-        files = f.read().splitlines()
-    return files
+        lines = f.read().splitlines()
+    return lines
 
 
 if __name__ == '__main__':
