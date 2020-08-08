@@ -126,10 +126,14 @@ def get_vars_from_txt(file):
 def move_files(items, source_dir, dest_dir, overwrite_dir):
     overwritten_files = []
     # overwrite_dir is for files that get overwritten
+
     # Make sure overwrite_dir is empty
-    if len(os.listdir(overwrite_dir)) != 0:
-        print(">> ERROR: Cannot move files: Overwrite Directory must be empty: " + overwrite_dir)
-        crash_with_confirm()
+    try:
+        if len(os.listdir(overwrite_dir)) != 0:
+            print(">> ERROR: Cannot move files: Overwrite Directory must be empty: " + overwrite_dir)
+            crash_with_confirm()
+    except FileNotFoundError:  # Create overwrite_dir if it doesn't exist
+        os.makedirs(overwrite_dir)
 
     for item in items:
         source_path = os.path.join(source_dir, item)
