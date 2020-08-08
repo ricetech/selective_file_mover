@@ -1,6 +1,6 @@
 # Selective File Mover
-# January 4th, 2020
-# Revision 1.1.0
+# August 7th, 2020
+# Revision 1.1.1
 # Eric Chen
 # @the_ricetech
 #
@@ -13,6 +13,36 @@
 import os
 import shutil
 from time import sleep
+
+
+def main():
+    while True:
+        try:
+            usage_dir = "D:/0 PF/Steam/steamapps/common/Grand Theft Auto V"
+            option = int(input("Select an option:\n"
+                               "1: Move files into game directory\n"
+                               "2: Move files back into storage directory (overwritten files restored)\n"
+                               "3: Quit\n"
+                               "Input 1/2/3: "))
+            list_mod_files(usage_dir, retrieve_excluded_files())
+            """
+            if option == 1:
+                all_files = os.listdir(store_dir)
+                move_files(all_files, store_dir, usage_dir, error_dir)
+            elif option == 2:
+                move_files(listOfFiles, usage_dir, store_dir, temp_dir)
+                tempFiles = os.listdir("C:/Program Files/Steam/steamapps/common/Grand Theft Auto V/tempW")
+                move_files(tempFiles, temp_dir, usage_dir, error_dir)
+                if os.listdir(error_dir):
+                    print("CAUTION: Something went wrong. Check emergency directory.")
+                    input("Press Enter to continue.")
+            elif option == 3:
+                break
+            else:
+                print("Invalid input. Try again.")"""
+            input()
+        except ValueError:
+            print("Error: Invalid input")
 
 
 def move_files(items, dir_1, dir_2, overwrite_dir):
@@ -44,30 +74,5 @@ def retrieve_excluded_files():
     return files
 
 
-while True:
-    try:
-        usage_dir = "D:/Files/Program Files/Steam/steamapps/common/Grand Theft Auto V"
-        option = int(input("Select an option:\n"
-                           "1: Move files into game directory\n"
-                           "2: Move files back into storage directory (overwritten files restored)\n"
-                           "3: Quit\n"
-                           "Input 1/2/3: "))
-        list_mod_files(usage_dir, retrieve_excluded_files())
-        """
-        if option == 1:
-            all_files = os.listdir(store_dir)
-            move_files(all_files, store_dir, usage_dir, error_dir)
-        elif option == 2:
-            move_files(listOfFiles, usage_dir, store_dir, temp_dir)
-            tempFiles = os.listdir("C:/Program Files/Steam/steamapps/common/Grand Theft Auto V/tempW")
-            move_files(tempFiles, temp_dir, usage_dir, error_dir)
-            if os.listdir(error_dir):
-                print("CAUTION: Something went wrong. Check emergency directory.")
-                input("Press Enter to continue.")
-        elif option == 3:
-            break
-        else:
-            print("Invalid input. Try again.")"""
-        input()
-    except ValueError:
-        print("Error: Invalid input")
+if __name__ == '__main__':
+    main()
