@@ -138,8 +138,10 @@ def move_files(items, source_dir, dest_dir, overwrite_dir):
     for item in items:
         source_path = os.path.join(source_dir, item)
         dest_path = os.path.join(dest_dir, item)
-        print("From:", source_path)
-        print("To:", dest_path)
+        # Debugging test - you can uncomment this if you prefer to see it.
+        # WARNING: Uncommenting this will result in significantly slower operations.
+        # print("From:", source_path)
+        # print("To:", dest_path)
         if os.path.exists(dest_path):
             # Move overwritten file to overwrite_dir
             shutil.move(dest_path, overwrite_dir)
